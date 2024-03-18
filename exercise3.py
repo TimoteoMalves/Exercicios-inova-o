@@ -1,7 +1,11 @@
 import json
 
-def add_contact(name, phone, e_address, contacts ):
+def add_contact(contacts):
     contact = {}
+    name = str(input("Name: "))
+    phone = str(input("Phone: "))
+    e_address = str(input("e_address: "))
+
 
     contact["name"] = name
     contact["phone"] = phone
@@ -11,7 +15,10 @@ def add_contact(name, phone, e_address, contacts ):
     return contacts
 
 
-def remove_contact(name, contacts):
+def remove_contact(contacts):
+
+    name = str(input("Name to be removed: "))
+
     for item in contacts:
         if item['name'] == name: 
             contacts.remove(item)
@@ -34,18 +41,43 @@ def show_list(contacts):
 def write_file(contacts):
     with open("file.json", "w") as f:
         json.dump(contacts, f)
+        
 
-contacts = []
+def menu():
+    print("1 - Add\n2 - Remove\n3 - Search\n4 - Show")
+    while True:
+        try: 
+            opt = int(input('Option: '))
+            return opt
 
-
-contacts = add_contact("Timoteo", "55981304521", "timoteo.alves@gmail.com", contacts)
-contacts = add_contact("Teste", "55981304521", "teste.alves@gmail.com", contacts)
-contacts = add_contact("Silva", "55981304521", "silva.alves@gmail.com", contacts)
-contacts = remove_contact("Timoteo", contacts)
-print(contacts)
-search_contact(contacts)
-write_file(contacts)
-
-
+        except ValueError:
+            print("Not a valid option")
 
 
+def main():
+    contacts = []
+
+    while True:
+
+        opt = menu()
+
+        if opt == 1: 
+            contacts = add_contact(contacts)
+            write_file(contacts)
+            print(contacts)
+
+        elif opt == 2:
+            contacts = remove_contact(contacts)
+            write_file(contacts)
+            print(contacts)
+
+        elif opt == 3:
+            search_contact(contacts)
+
+        elif opt == 4:
+            print(contacts)
+
+        elif opt == 5:
+            break
+
+main()
